@@ -6,6 +6,8 @@ on:
     paths:
       - 'guestbook/**'
 
+  workflow_dispatch:
+
 defaults:
   run:
     working-directory: ./guestbook
