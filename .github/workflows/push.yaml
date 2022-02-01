@@ -2,9 +2,13 @@ name: 'Push images'
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'guestbook/**'
+
+defaults:
+  run:
+    working-directory: ./guestbook
 
 jobs:
   push_to_registry:
@@ -14,11 +18,14 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
-          repository: sebkhedim/guestbook
-          tag_with_sha: true
-          dockerfile: guestbook/Dockerfile
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+
+      - name: Build Docker image
+        run: docker build . --file Dockerfile --tag sebkhedim/guestbook:${{ GITHUB_SHA }}
+
+      - name: Push Docker image
+        run: docker push sebkhedim/guestbook:${{ GITHUB_SHA }}
