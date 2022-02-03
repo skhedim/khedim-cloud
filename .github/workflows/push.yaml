@@ -26,3 +26,20 @@ jobs:
 
       - name: Push Docker image
         run: docker push sebkhedim/guestbook:$GITHUB_SHA
+
+      - name: Google auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project kubernetes-187222'
+      
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+
+      - name: apply all K8S YAML
+        run: kubectl apply -f ./deploy
