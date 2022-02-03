@@ -2,9 +2,7 @@ name: 'Push images'
 on:
   push:
     branches:
-      - master
-    paths:
-      - 'guestbook/**'
+      - main
 
 jobs:
   push_to_registry:
