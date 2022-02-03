@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jeroval-khedim
+  name: guestbook-jeroval
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: khedim.34.79.246.69.nip.io
+  - host: jeroval.34.79.246.69.nip.io
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: jeroval-khedim
+            name: guestbook-jeroval
             port:
               number: 80
