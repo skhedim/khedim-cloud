@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: guestbook-khedim
   labels:
-    app: guestbook
+    app: guestbook-khedim
 spec:
   type: ClusterIP
   ports:
@@ -11,4 +11,4 @@ spec:
     targetPort: 3000
     name: http
   selector:
-    app: guestbook
+    app: guestbook-khedim
