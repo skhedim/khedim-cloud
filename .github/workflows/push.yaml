@@ -41,5 +41,8 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
 
-      - name: apply all K8S YAML
+      - name: Deploy application
+        run: kubectl create deployment guestboo-khedim --image=sebkhedim/guestbook:$GITHUB_SHA
+
+      - name: Expose application
         run: kubectl apply -f ./deploy
