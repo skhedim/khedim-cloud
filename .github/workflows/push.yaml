@@ -41,8 +41,12 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
 
+      - name: Deploy the application
+        run: kubectl create deployment guestbook-khedim --image=sebkhedim/guestbook:$GITHUB_SHA
+        continue-on-error: true
+
       - name: Deploy application
-        run: kubectl create deployment guestboo-khedim --image=sebkhedim/guestbook:$GITHUB_SHA
+        run: kubectl set image deployment/guestbook-khedim guestbook=sebkhedim/guestbook:$GITHUB_SHA
 
       - name: Expose application
         run: kubectl apply -f ./deploy
