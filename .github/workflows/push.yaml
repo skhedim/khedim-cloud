@@ -4,6 +4,8 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -17,7 +19,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
-
 
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag jeroval/guestbook:$GITHUB_SHA
@@ -40,5 +41,12 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
 
-      - name: apply all K8S YAML
+      - name: Deploy the application
+        run: kubectl create deployment guestbook-jeroval --image=jeroval/guestbook:$GITHUB_SHA
+        continue-on-error: true
+
+      - name: Deploy application
+        run: kubectl set image deployment/guestbook-jeroval guestbook=jeroval/guestbook:$GITHUB_SHA
+
+      - name: Expose application
         run: kubectl apply -f ./deploy
