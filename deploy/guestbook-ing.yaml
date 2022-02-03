@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: guestbook-khedim
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - host: khedim.34.79.246.69.nip.io
